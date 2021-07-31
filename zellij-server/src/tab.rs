@@ -1716,6 +1716,90 @@ impl Tab {
             false
         }
     }
+    fn try_increase_pane_and_surroundings_right(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_increase_pane_and_surroundings_right(pane_id, reduce_by) {
+            self.increase_pane_and_surroundings_right(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_increase_pane_and_surroundings_left(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_increase_pane_and_surroundings_left(pane_id, reduce_by) {
+            self.increase_pane_and_surroundings_left(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_increase_pane_and_surroundings_up(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_increase_pane_and_surroundings_up(pane_id, reduce_by) {
+            self.increase_pane_and_surroundings_up(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_increase_pane_and_surroundings_down(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_increase_pane_and_surroundings_down(pane_id, reduce_by) {
+            self.increase_pane_and_surroundings_down(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_reduce_pane_and_surroundings_right(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_reduce_pane_and_surroundings_right(pane_id, reduce_by) {
+            self.reduce_pane_and_surroundings_right(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_reduce_pane_and_surroundings_left(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_reduce_pane_and_surroundings_left(pane_id, reduce_by) {
+            self.reduce_pane_and_surroundings_left(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_reduce_pane_and_surroundings_up(&mut self, pane_id: &PaneId, reduce_by: usize) -> bool {
+        if self.can_reduce_pane_and_surroundings_up(pane_id, reduce_by) {
+            self.reduce_pane_and_surroundings_up(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
+    fn try_reduce_pane_and_surroundings_down(
+        &mut self,
+        pane_id: &PaneId,
+        reduce_by: usize,
+    ) -> bool {
+        if self.can_reduce_pane_and_surroundings_down(pane_id, reduce_by) {
+            self.reduce_pane_and_surroundings_down(pane_id, reduce_by);
+            return true;
+        }
+        return false;
+    }
     pub fn resize_whole_tab(&mut self, new_screen_size: PositionAndSize) {
         if self.fullscreen_is_active {
             // this is not ideal, we can improve this
@@ -1902,9 +1986,9 @@ impl Tab {
         if let (Some(_), Some(above_left)) =
             (left_top_border_aligned_pane, above_left_border_aligned_pane)
         {
-            self.increase_pane_and_surroundings_left(&active_pane_id, count);
-            self.increase_pane_and_surroundings_up(&active_pane_id, count);
-            self.increase_pane_and_surroundings_left(&above_left, count);
+            self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_left(&above_left, count);
             cross_section = true;
         }
 
@@ -1912,9 +1996,9 @@ impl Tab {
             right_top_border_aligned_pane,
             above_right_border_aligned_pane,
         ) {
-            self.increase_pane_and_surroundings_right(&active_pane_id, count);
-            self.increase_pane_and_surroundings_up(&active_pane_id, count);
-            self.increase_pane_and_surroundings_right(&above_right, count);
+            self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_right(&above_right, count);
             cross_section = true;
         }
 
@@ -1922,9 +2006,9 @@ impl Tab {
             right_bottom_border_aligned_pane,
             below_right_border_aligned_pane,
         ) {
-            self.increase_pane_and_surroundings_right(&active_pane_id, count);
-            self.increase_pane_and_surroundings_down(&active_pane_id, count);
-            self.increase_pane_and_surroundings_right(&below_right, count);
+            self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_right(&below_right, count);
             cross_section = true;
         }
 
@@ -1932,9 +2016,9 @@ impl Tab {
             left_bottom_border_aligned_pane,
             below_left_border_aligned_pane,
         ) {
-            self.increase_pane_and_surroundings_left(&active_pane_id, count);
-            self.increase_pane_and_surroundings_down(&active_pane_id, count);
-            self.increase_pane_and_surroundings_left(&below_left, count);
+            self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+            self.try_increase_pane_and_surroundings_left(&below_left, count);
             cross_section = true;
         }
 
@@ -1946,12 +2030,12 @@ impl Tab {
         // check for cross section `T`
         match (left_top_border_aligned_pane, above_left_border_aligned_pane) {
             (None, Some(_)) if pane_directly_left_of.len() > 0 => {
-                self.increase_pane_and_surroundings_up(&active_pane_id, count);
-                self.increase_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_above.len() > 0 => {
-                self.increase_pane_and_surroundings_up(&active_pane_id, count);
-                self.increase_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
             }
             _ => {}
         }
@@ -1960,12 +2044,12 @@ impl Tab {
             above_right_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_right_of.len() > 0 => {
-                self.increase_pane_and_surroundings_up(&active_pane_id, count);
-                self.increase_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_above.len() > 0 => {
-                self.increase_pane_and_surroundings_up(&active_pane_id, count);
-                self.increase_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
             }
             _ => {}
         }
@@ -1975,12 +2059,12 @@ impl Tab {
             below_left_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_left_of.len() > 0 => {
-                self.increase_pane_and_surroundings_down(&active_pane_id, count);
-                self.increase_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_below.len() > 0 => {
-                self.increase_pane_and_surroundings_down(&active_pane_id, count);
-                self.increase_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_left(&active_pane_id, count);
             }
             _ => {}
         }
@@ -1990,12 +2074,12 @@ impl Tab {
             below_right_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_right_of.len() > 0 => {
-                self.increase_pane_and_surroundings_down(&active_pane_id, count);
-                self.increase_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_below.len() > 0 => {
-                self.increase_pane_and_surroundings_down(&active_pane_id, count);
-                self.increase_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_increase_pane_and_surroundings_right(&active_pane_id, count);
             }
             _ => {}
         }
@@ -2056,9 +2140,9 @@ impl Tab {
         if let (Some(_), Some(above_left)) =
             (left_top_border_aligned_pane, above_left_border_aligned_pane)
         {
-            self.reduce_pane_and_surroundings_right(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_right(&above_left, count);
+            self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_right(&above_left, count);
             cross_section = true;
         }
 
@@ -2066,9 +2150,9 @@ impl Tab {
             right_top_border_aligned_pane,
             above_right_border_aligned_pane,
         ) {
-            self.reduce_pane_and_surroundings_left(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_left(&above_right, count);
+            self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_left(&above_right, count);
             cross_section = true;
         }
 
@@ -2076,9 +2160,9 @@ impl Tab {
             right_bottom_border_aligned_pane,
             below_right_border_aligned_pane,
         ) {
-            self.reduce_pane_and_surroundings_left(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_left(&below_right, count);
+            self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_left(&below_right, count);
             cross_section = true;
         }
 
@@ -2086,9 +2170,9 @@ impl Tab {
             left_bottom_border_aligned_pane,
             below_left_border_aligned_pane,
         ) {
-            self.reduce_pane_and_surroundings_right(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-            self.reduce_pane_and_surroundings_right(&below_left, count);
+            self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+            self.try_reduce_pane_and_surroundings_right(&below_left, count);
             cross_section = true;
         }
 
@@ -2100,12 +2184,12 @@ impl Tab {
         // check for cross section `T`
         match (left_top_border_aligned_pane, above_left_border_aligned_pane) {
             (None, Some(_)) if pane_directly_left_of.len() > 0 => {
-                self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_above.len() > 0 => {
-                self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
             }
             _ => {}
         }
@@ -2114,12 +2198,12 @@ impl Tab {
             above_right_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_right_of.len() > 0 => {
-                self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_above.len() > 0 => {
-                self.reduce_pane_and_surroundings_down(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_down(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
             }
             _ => {}
         }
@@ -2129,12 +2213,12 @@ impl Tab {
             below_left_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_left_of.len() > 0 => {
-                self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_below.len() > 0 => {
-                self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_right(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_right(&active_pane_id, count);
             }
             _ => {}
         }
@@ -2144,12 +2228,12 @@ impl Tab {
             below_right_border_aligned_pane,
         ) {
             (None, Some(_)) if pane_directly_right_of.len() > 0 => {
-                self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
             }
             (Some(_), None) if pane_directly_below.len() > 0 => {
-                self.reduce_pane_and_surroundings_up(&active_pane_id, count);
-                self.reduce_pane_and_surroundings_left(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_up(&active_pane_id, count);
+                self.try_reduce_pane_and_surroundings_left(&active_pane_id, count);
             }
             _ => {}
         }
