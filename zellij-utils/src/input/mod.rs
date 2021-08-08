@@ -22,7 +22,7 @@ pub fn get_mode_info(
     match mode {
         InputMode::Normal | InputMode::Locked => {}
         InputMode::Resize => {
-            keybinds.push(("←↓↑→".to_string(), "Resize".to_string()));
+            keybinds.push(("←↓↑→+-".to_string(), "Resize".to_string()));
         }
         InputMode::Pane => {
             keybinds.push(("←↓↑→".to_string(), "Move focus".to_string()));

@@ -2023,6 +2023,7 @@ impl Tab {
         }
 
         if cross_section {
+            self.render();
             return;
         }
 
@@ -2083,6 +2084,7 @@ impl Tab {
             }
             _ => {}
         }
+        self.render();
     }
 
     fn nondirectional_resize_reduce_helper(&mut self) {
@@ -2177,6 +2179,7 @@ impl Tab {
         }
 
         if cross_section {
+            self.render();
             return;
         }
 
@@ -2237,6 +2240,7 @@ impl Tab {
             }
             _ => {}
         }
+        self.render();
     }
     pub fn move_focus(&mut self) {
         if !self.has_selectable_panes() {
